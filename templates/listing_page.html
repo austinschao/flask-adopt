@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} Listing Page {% endblock %}
+
+{% block heading %} Listing Page {% endblock %}
+
+{% block content%}
+  {% for pet in pets %}
+   <div>
+     <p>{{ pet.name}}</p>
+     <p>{{ pet.available }}</p>
+     <img src="{{pet.photo_url}}" alt="Image of Pet">
+   </div>
+   {% endfor %}
+{% endblock %}
