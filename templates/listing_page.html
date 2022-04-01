@@ -2,14 +2,38 @@
 
 {% block title %} Listing Page {% endblock %}
 
+
 {% block heading %} Listing Page {% endblock %}
 
 {% block content%}
+
+<!-- Testing for listing_page-->
+
+{% for message in get_flashed_messages() %}
+  <b>{{ message }}</b>
+{% endfor %}
+
+
+
+
+
   {% for pet in pets %}
    <div>
      <p>{{ pet.name}}</p>
-     <p>{{ pet.available }}</p>
-     <img src="{{pet.photo_url}}" alt="Image of Pet">
+
+     <p>
+      {% if pet.available %}   
+        <b>Available</b>
+      {% else %}
+        <b>Unavailable</b>
+      {% endif %}
+    </p>
+    {% if pet.photo_url != ''%}
+     <img src="{{pet.photo_url}}" alt="failed to load image">
+     {% endif %}
    </div>
    {% endfor %}
+
+   <a href="/add">Add New Pet</a>
+
 {% endblock %}
