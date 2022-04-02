@@ -6,7 +6,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from models import db, connect_db, Pet
 
-from forms import AddPetForm
+from forms import AddPetForm, EditPetForm
 
 app = Flask(__name__)
 
@@ -37,7 +37,7 @@ def display_listing():
 
 
 @app.route("/add", methods=["GET", "POST"])
-def add_snack():
+def add_pet():
     """Pet add form; handle adding."""
 
     form = AddPetForm()
@@ -48,7 +48,6 @@ def add_snack():
         photo_url = form.photo_url.data
         age = form.age.data
         notes = form.notes.data
-        # do stuff with data/insert to db
 
         new_pet = Pet(name = name, species = species, photo_url = photo_url, age = age, notes = notes)
         db.session.add(new_pet)
@@ -61,3 +60,29 @@ def add_snack():
     else:
         return render_template(
             "add_pet_page.html", form=form)
+
+@app.route("/<int:pet_id>", methods=["GET", "POST"])
+def edit_pet_page(pet_id):
+    """ Edit Pet Profile Page; handle editing """
+
+    curr_pet = Pet.query.get_or_404(pet_id)
+    form = EditPetForm(obj=curr_pet)
+
+    if form.validate_on_submit():
+        photo_url = form.photo_url.data
+        notes = form.notes.data
+        available = form.available.data
+
+        curr_pet.photo_url = photo_url
+        curr_pet.notes = notes
+        curr_pet.available = available
+
+        db.session.commit()
+
+        flash(f"Edited {curr_pet.name}'s profile")
+
+        return redirect(f"/{pet_id}")
+
+    else:
+        return render_template(
+            "pet_detail_page.html", form=form, curr_pet=curr_pet)

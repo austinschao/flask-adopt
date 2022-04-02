@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %} Pet Detail Page {% endblock %}
+
+{% block heading %} About {{curr_pet.name}} {% endblock %}
+
+{% block content%}
+
+{% for message in get_flashed_messages() %}
+<b>{{ message }}</b>
+{% endfor %}
+  <div>
+
+    {% if curr_pet.photo_url != ''%}
+
+    <img src="{{curr_pet.photo_url}}" alt="failed to load image">
+
+    {% endif %}
+
+    <li>Name: {{ curr_pet.name}}</li>
+    <li>Pet Age: {{curr_pet.age}}</li>
+    <li>Pet Species: {{curr_pet.species}}</li>
+
+  </div>
+
+  <div>
+    <form action="/{{curr_pet.id}}" id="pet-edit-form" method="POST">
+      {{ form.hidden_tag() }}
+      <!--add type=hidden form fields -->
+
+      {% for field in form
+      if field.widget.input_type != 'hidden' %}
+
+      <p>
+        {{ field.label }}
+        {{ field }}
+
+        {% for error in field.errors %}
+        {{ error }}
+        {% endfor %}
+      </p>
+
+      {% endfor %}
+      <button type="submit">Edit</button>
+    </form>
+  </div>
+
+{% endblock %}

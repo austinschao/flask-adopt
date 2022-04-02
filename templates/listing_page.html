@@ -13,24 +13,23 @@
   <b>{{ message }}</b>
 {% endfor %}
 
-
-
-
-
   {% for pet in pets %}
    <div>
-     <p>{{ pet.name}}</p>
+     <p>Name: {{ pet.name}}</p>
 
      <p>
-      {% if pet.available %}   
+      {% if pet.available %}
         <b>Available</b>
       {% else %}
         <b>Unavailable</b>
       {% endif %}
     </p>
+
     {% if pet.photo_url != ''%}
-     <img src="{{pet.photo_url}}" alt="failed to load image">
+     <img src="{{pet.photo_url}}" alt="failed to load image" style="width: 200px height: 200px">
      {% endif %}
+
+     <a href="/{{pet.id}}">Edit Pet Profile</a>
    </div>
    {% endfor %}
 
