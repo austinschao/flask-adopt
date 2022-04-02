@@ -81,7 +81,7 @@ def edit_pet_page(pet_id):
 
         flash(f"Edited {curr_pet.name}'s profile")
 
-        return redirect(f"/{pet_id}")
+        return redirect(f"/{curr_pet.id}")
 
     else:
         return render_template(
